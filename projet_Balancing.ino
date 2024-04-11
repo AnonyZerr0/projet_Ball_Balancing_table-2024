@@ -1,6 +1,6 @@
 //***********************************************************************
 // ZERGUIT Nour
-// 6ème Electronique INRACI
+// 6ème Electronique INRACI salut
 // Projet ball and plate 2023-2024
 // Hardware : ESP32 waroom 32E + servomoteurs+ écran résistif tactile
 // 08/04/2024
