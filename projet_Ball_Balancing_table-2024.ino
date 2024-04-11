@@ -111,10 +111,12 @@ void setup() {
   monServoY.write(90);  //81
 
 
+/*
   Ma_minuterie = timerBegin(0, 80, true);                 //j'initialise le timer
   timerAttachInterrupt(Ma_minuterie, &Timer0_ISR, true);  // active l'événement d'interruption Timer et attache sa fonction de rappel à la fonction ISR_Handler
   timerAlarmWrite(Ma_minuterie, 10000, true);             // true=Activer le rechargement automatique  // je choisie le Tout qui est de 10000
   timerAlarmEnable(Ma_minuterie);                         // active la minuterie en continue
+  */
 }
 
 void loop()
