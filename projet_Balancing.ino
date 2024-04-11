@@ -1,6 +1,6 @@
 //***********************************************************************
 // ZERGUIT Nour
-// 6ème Electronique INRACI salut
+// 6ème Electronique INRACI
 // Projet ball and plate 2023-2024
 // Hardware : ESP32 waroom 32E + servomoteurs+ écran résistif tactile
 // 08/04/2024
@@ -25,7 +25,7 @@ int AngleX;
 int AngleY;
 
 // valeur PID point de fonctionnement
-float Kp = 0.3;
+float Kp = 2.0;
 float Ki = 0.0;
 float Kd = 0.0;
 
@@ -59,8 +59,8 @@ void IRAM_ATTR Timer0_ISR()
   MesureY = analogRead(Yplus);
   if (MesureY < 230)
     MesureY = 0;
-  pinMode(Yplus, OUTPUT);
-  digitalWrite(Yplus, 0);
+  // pinMode(Yplus, OUTPUT);
+  // digitalWrite(Yplus, 0);
   AngleY = map(MesureY, 230, 3100, angleMinY, angleMaxY);
 
   // Mesure sur l'axe X
@@ -73,8 +73,8 @@ void IRAM_ATTR Timer0_ISR()
   MesureX = analogRead(Xmoin);
   if (MesureX == 4095)
     MesureX = 0;
-  pinMode(Xmoin, OUTPUT);
-  digitalWrite(Xmoin, 0);
+  // pinMode(Xmoin, OUTPUT);
+  // digitalWrite(Xmoin, 0);
   AngleX = map(MesureX, 170, 3700, angleMinX, angleMaxX);
 
   // Calcul des sorties PID pour les axes X et Y
@@ -101,6 +101,11 @@ void setup() {
   monServoX.attach(12);
   monServoY.attach(13);
 
+  // pinMode(Yplus, OUTPUT);
+  // pinMode(Yplus, OUTPUT);
+  // pinMode(Xmoin, OUTPUT);
+  // pinMode(Xmoin, OUTPUT);
+
   // Initialise la position initiale des servomoteurs à ? degrés
   monServoX.write(90);  // 99
   monServoY.write(90);  //81
@@ -116,7 +121,7 @@ void loop()
 
 {
 
-  // IRAM_ATTR Timer0_ISR();
+
 
 
   // // // Mesure sur l'axe Y
@@ -190,8 +195,8 @@ void loop()
 
   //   monServoY.write(angleMinY);
   // } else {
-  //   monServoX.write(90);
-  //   monServoY.write(90);
+  // monServoX.write(90);
+  // monServoY.write(90);
   // }
   // Calcul des sorties PID pour les axes X et Y
 }
