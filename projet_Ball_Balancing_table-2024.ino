@@ -6,7 +6,7 @@
 // 08/04/2024
 #include <ESP32_Servo.h>
 
-// Crée un objet Servo pour chaque moteur
+// Crée un objet Servo pour chaque moteurs
 Servo monServoX;
 Servo monServoY;
 
