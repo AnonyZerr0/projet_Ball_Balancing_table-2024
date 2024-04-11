@@ -25,7 +25,7 @@ int AngleX;
 int AngleY;
 
 // valeur PID point de fonctionnement
-float Kp = 2.0;
+float Kp = 10.0;
 float Ki = 0.0;
 float Kd = 0.0;
 
@@ -52,15 +52,16 @@ hw_timer_t* Ma_minuterie = NULL;  // hw_timer_t_type de donner defini dans le fr
 void IRAM_ATTR Timer0_ISR()
 
 {
-
+  static byte compteur = 0;
+  compteur++;
   // Mesure sur l'axe Y
   digitalWrite(Xplus, 1);
   digitalWrite(Xmoin, 0);
   MesureY = analogRead(Yplus);
   if (MesureY < 230)
     MesureY = 0;
-  // pinMode(Yplus, OUTPUT);
-  // digitalWrite(Yplus, 0);
+  pinMode(Yplus, OUTPUT);
+  digitalWrite(Yplus, 0);
   AngleY = map(MesureY, 230, 3100, angleMinY, angleMaxY);
 
   // Mesure sur l'axe X
@@ -73,8 +74,8 @@ void IRAM_ATTR Timer0_ISR()
   MesureX = analogRead(Xmoin);
   if (MesureX == 4095)
     MesureX = 0;
-  // pinMode(Xmoin, OUTPUT);
-  // digitalWrite(Xmoin, 0);
+  pinMode(Xmoin, OUTPUT);
+  digitalWrite(Xmoin, 0);
   AngleX = map(MesureX, 170, 3700, angleMinX, angleMaxX);
 
   // Calcul des sorties PID pour les axes X et Y
@@ -86,10 +87,13 @@ void IRAM_ATTR Timer0_ISR()
   // Limitation des sorties PID pour les angles des servomoteurs
   int angleX_limite = constrain(90 + sortieX, angleMinX, angleMaxX);
   int angleY_limite = constrain(90 + sortieY, angleMinY, angleMaxY);
+  if (compteur <= 2) {
+    // Déplacement des servomoteurs
+    monServoX.write(angleX_limite);
+    monServoY.write(angleY_limite);
 
-  // Déplacement des servomoteurs
-  monServoX.write(angleX_limite);
-  monServoY.write(angleY_limite);
+    compteur=0;
+  }
 }
 
 
@@ -106,12 +110,13 @@ void setup() {
   // pinMode(Xmoin, OUTPUT);
   // pinMode(Xmoin, OUTPUT);
 
+
   // Initialise la position initiale des servomoteurs à ? degrés
   monServoX.write(90);  // 99
   monServoY.write(90);  //81
 
 
-/*
+  /*
   Ma_minuterie = timerBegin(0, 80, true);                 //j'initialise le timer
   timerAttachInterrupt(Ma_minuterie, &Timer0_ISR, true);  // active l'événement d'interruption Timer et attache sa fonction de rappel à la fonction ISR_Handler
   timerAlarmWrite(Ma_minuterie, 10000, true);             // true=Activer le rechargement automatique  // je choisie le Tout qui est de 10000
